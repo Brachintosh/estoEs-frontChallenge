@@ -1,0 +1,21 @@
+.containerFooter {
+    padding: 5px 0px 5px 0px;
+    font-size: .94rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 99.5vw;
+    text-align: center;
+    background-color: rgb(236, 239, 241);
+    padding-bottom: .5em;
+    
+  }
+  .containerFooter span {
+    padding-left: .75rem;
+  }
+  .containerFooter img {
+      margin-top: 5px;
+      display: flex;
+      justify-content: center;
+      align-self: center;
+  }
