@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { AppContext, useAppContext } from '../context/appContext';
-import EditModal from './EditModal';
 import { Link } from 'react-router-dom';
-import Image from 'react-bootstrap/Image';
-
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Dropdown, DropdownButton, Image } from 'react-bootstrap';
+import EditModal from './EditModal';
 
 const ShowList = () => {
   const { projects, deleteProject } = useAppContext(AppContext);
 
   const [rowData, setRowData] = useState({});
-  
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -20,7 +16,6 @@ const ShowList = () => {
     setRowData(project)
     setShow(true);
   };
-  
 
   return (
     <>

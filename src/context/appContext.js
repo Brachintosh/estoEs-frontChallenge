@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import { CREATE, UPDATE, DELETE } from "./actions";
 import reducer from "./reducer";
 
@@ -9,15 +9,15 @@ const initialState = {
     {
       id: "16/11/2022 - 17:03",
       name: "Landing Page",
-      description: "Some awesome project",
+      description: "This is a React.js, really awesome project",
       projectManager: "Steve Jobs",
-      assignedTo: "brachintosh",
+      assignedTo: "Walt Cosani",
       status: "pending",
     },
     {
       id: "16/11/2022 - 17:18",
       name: "E-Commerce Shop",
-      description: "Extreme awesome project",
+      description: "Extreme Next.js project",
       projectManager: "Steve Jobs",
       assignedTo: "Ignacio Truffa",
       status: "enabled",
@@ -36,6 +36,7 @@ const initialState = {
 export const AppProvider = ({children}) => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [projectManagers, setProjectManagers] = useState([]);
 
   const createProject = (project) => dispatch({type: CREATE, payload: project})
   const updateProject = (project) => dispatch({type: UPDATE, payload: project})
@@ -47,6 +48,8 @@ export const AppProvider = ({children}) => {
         createProject,
         updateProject,
         deleteProject,
+        projectManagers,
+        setProjectManagers,
       }}>
           {children}
       </AppContext.Provider>

@@ -6,8 +6,14 @@ import  { useForm } from 'react-hook-form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
+import useProductManagers from '../hooks/useProjectManagers';
+
 const Add = () => {
-  const { createProject } = useAppContext(AppContext);
+  const { createProject, projectManagers } = useAppContext(AppContext);
+
+  useProductManagers();
+  let projectManagersData = projectManagers?.map(a => a?.name);
+  let statusData = projectManagers?.map(a => a?.birth_year);
 
   const { register, handleSubmit, formState: { errors }, } = useForm();
 
@@ -157,16 +163,27 @@ const Add = () => {
           {/* DROPDOWNS PARA >> "Project Manager", "Assigned to", "Status"  */}
           <FloatingLabel controlId="selectProjectManager" label="Project Manager" className="mb-4">
             <Form.Select
-              {...register("projectManager")}
+              {...register("projectManager",{
+                  required: true,
+                })
+              }
               value={projectManager}
               onChange={(e) => setProjectManager(e.target.value)}
             >
               <option >Select a Project Manager...</option>
-              <option value="Juan Carlos">Juan</option>
+              { projectManagersData && projectManagersData?.slice(0,5).map((nameAT) => (
+                  <option key={nameAT + Math.random()} value={nameAT}>{nameAT}</option>
+                )
+              )}
+
+              {/* <option value="Juan Carlos">Juan</option>
               <option value="Joaquin">Joaquin</option>
-              <option value="Raul">Raul</option>
+              <option value="Raul">Raul</option> */}
+
             </Form.Select>
+            { errors.description?.type === "required" && <small style={errorsStyles} >The Project must have a Project Manager</small>}
           </FloatingLabel>
+          
           {/* testing... */}
 
           {/* <div className="form-floating mb-4">
@@ -184,15 +201,23 @@ const Add = () => {
 
           <FloatingLabel controlId="selectProjectManager" label="Assigned To" className="mb-4">
             <Form.Select
-              {...register("assignedTo")}
+              {...register("assignedTo",{
+                required: true,
+              })
+            }
               value={assignedTo}
               onChange={(e) => setAssignedTo(e.target.value)}
             >
               <option>Select who to assign...</option>
-              <option value="Luka">Luka</option>
+              { projectManagersData && projectManagersData?.slice(5,10).map((nameAT) => (
+                  <option key={nameAT + Math.random()} value={nameAT}>{nameAT}</option>
+                )
+              )}
+              {/* <option value="Luka">Luka</option>
               <option value="Tomas">Tomas</option>
-              <option value="Maria Juana">Juana</option>
+              <option value="Maria Juana">Juana</option> */}
             </Form.Select>
+            { errors.description?.type === "required" && <small style={errorsStyles} >The Project must be assigned to someone.</small>}
           </FloatingLabel>
 
           {/* <div className="form-floating mb-4">
@@ -210,16 +235,23 @@ const Add = () => {
 
           <FloatingLabel controlId="selectProjectManager" label="Status" className="mb-4">
             <Form.Select
-              {...register("status")}
+              {...register("status",{
+                required: true,
+                })
+              }
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
               <option>Select status...</option>
-              <option value="Enabled">Enabled</option>
+              { statusData && statusData?.slice(0,5).map((status) => (
+                <option key={status + Math.random()} value={status}>{status}</option>
+              ))}
+              {/* <option value="Enabled">Enabled</option>
               <option value="Paused">Paused</option>
               <option value="Finished">Finished</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="Cancelled">Cancelled</option> */}
             </Form.Select>
+            { errors.description?.type === "required" && <small style={errorsStyles} >The Project must have a Status</small>}
           </FloatingLabel>
 
           {/* <div className="form-floating mb-4">
