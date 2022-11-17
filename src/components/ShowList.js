@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { AppContext, useAppContext } from '../context/appContext';
 import EditModal from './EditModal';
 import { Link } from 'react-router-dom';
-import Image from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image';
+
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const ShowList = () => {
   const { projects, deleteProject } = useAppContext(AppContext);
@@ -27,6 +30,7 @@ const ShowList = () => {
           <i className="fa-solid fa-plus"></i>
           {" "}Add Project
         </Link>
+        {/* <i className="fa-solid fa-ellipsis-vertical"></i> */}
       </div>
 
       <ul className="list-group list-group-horizontal-xxl text-start mb-4">
@@ -34,27 +38,22 @@ const ShowList = () => {
         <div key={project.id + Math.random()}>
       
         <li className="list-group-item">
-        <div className="row align-items-start">
-          <div className="col-9">
-            <h5>{project.name}</h5>
-          </div>
-
-          <div className="col-3">
-            <div className="btn-group">
-              <button className="btn btn-info" onClick={() => handleShow(project)}>
-                <i className="fa-regular fa-pen-to-square">
-                {/* <p> Edit</p> */}
-                </i>
-              </button>
-              <button className="btn btn-danger" onClick={() => deleteProject(project.id)}>
-                <i className="fa-regular fa-trash-can">
-                {/* <p> Delete</p> */}
-                </i>
-              </button>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",}}>
+            <div className="col-9">
+              <h5>{project.name}</h5>
             </div>
+
+
+            <DropdownButton id="dropdown-basic-button" title="">
+              <Dropdown.Item as="button" className="btn btn-info" onClick={() => handleShow(project)}>
+                <i className="fa-regular fa-pen-to-square text-primary"> Edit</i>
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item as="button" className="btn btn-warning" onClick={() => deleteProject(project.id)}>
+                <i className="fa-regular fa-trash-can text-danger"> Delete</i>
+              </Dropdown.Item>
+            </DropdownButton>
           </div>
-          
-        </div>
         </li>
         
         <li className="list-group-item">Creation date: {project.id}</li>

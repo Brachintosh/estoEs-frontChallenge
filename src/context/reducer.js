@@ -20,21 +20,57 @@ const reducer = (state, action) => {
     
     }
     case DELETE: {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
       
-      Swal.fire({
-        title: 'Do you want to delete this project?',
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         icon: 'warning',
-        showDenyButton: true,
-        confirmButtonText: 'Delete',
-        denyButtonText: `Cancel`,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          Swal.fire('Project was deleted!', '', 'success')
-        } else if (result.isDenied) {
-          Swal.fire('Project was not deleted.', '', 'info')
+          swalWithBootstrapButtons.fire(
+            'Deleted!',
+            'Your project has been deleted.',
+            'success'
+          )
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your project is safe :)',
+            'error'
+            )
+
+            return {
+              ...state,
+              projects: state.projects
+            };
         }
       })
+      // Swal.fire({
+      //   title: 'Do you want to delete this project?',
+      //   icon: 'warning',
+      //   showDenyButton: true,
+      //   confirmButtonText: 'Delete',
+      //   denyButtonText: `Cancel`,
+      // }).then((result) => {
+      //   /* Read more about isConfirmed, isDenied below */
+      //   if (result.isConfirmed) {
+      //     Swal.fire('Project was deleted!', '', 'success')
+      //   } else if (result.isDenied) {
+      //     Swal.fire('Project was not deleted.', '', 'info')
+      //   }
+      // })
       
       return {
         ...state,

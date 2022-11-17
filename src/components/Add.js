@@ -2,9 +2,35 @@ import React, { useState } from 'react';
 import { AppContext, useAppContext } from '../context/appContext';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import  { useForm } from 'react-hook-form';
 
 const Add = () => {
   const { createProject } = useAppContext(AppContext);
+
+  const { register, handleSubmit, formState: { errors }, } = useForm();
+
+  const customSubmit = (data) => {
+    console.log("soy la data del form >>>", data)
+
+    createProject({
+      id: dateResult,
+      name: name,
+      description: description,
+      projectManager: projectManager,
+      assignedTo: assignedTo,
+      status: status,
+    })
+
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Your project has been saved',
+      showConfirmButton: false,
+      timer: 1500,
+    })
+
+    resetForm();
+  };
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -35,8 +61,9 @@ const Add = () => {
     setAssignedTo("");
     setStatus("");
   };
-
-  const handleSubmit = (e) => {
+  
+  // eslint-disable-next-line
+  const handleInputSubmit = (e) => { 
     e.preventDefault();
 
     createProject({
@@ -57,6 +84,8 @@ const Add = () => {
 
     resetForm();
   };
+
+  const errorsStyles = { display:"flex", justifyContent:"flex-start", color: "#f2387a", paddingTop: ".5em", marginLeft: "1em",fontWeight: 600};
 
   return (
     <>
@@ -79,77 +108,99 @@ const Add = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-floating mb-4">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder="Project Name"
-          />
-          <label>Project Name</label>
-        </div>
-
-        <div className="form-floating mb-4">
-          <input
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            type="text"
-            className="form-control"
-            id="floatingDescription"
-            placeholder="Description"
-          />
-          <label>Description</label>
-        </div>
-
-        {/* DROPDOWNS PARA >> "Project Manager", "Assigned to", "Status"  */}
-        <div className="form-floating mb-4">
-          <input
-            value={projectManager}
-            onChange={(e) => setProjectManager(e.target.value)}
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder='Project Manager'
-          />
-          <label>Project Manager</label>
-        </div>
-
-        <div className="form-floating mb-4">
-          <input
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder='Assigned to'
-          />
-          <label>Assigned to</label>
-        </div>
-
-        <div className="form-floating mb-4">
-          <input
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            type="text"
-            className="form-control"
-            id="floatingInput"
-            placeholder='Assigned to'
-          />
-          <label>Status</label>
-        </div>
-
-        {/* BTN SUBMIT */}
-        <div className="container text-start">
-        <div className="row align-items-start mb-4">
-          <div className="col-6">
-            <button type="submit" className="btn btn-lg btn-danger">Create project</button>
+        {/* <form onSubmit={handleInputSubmit}> */}
+        <form onSubmit={handleSubmit(customSubmit)}>
+          <div className="form-floating mb-4">
+            <input
+              {...register("name", {
+                  required: true,
+                  minLength: 5,
+                  maxLength: 50,
+                })
+              }
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              className="form-control"
+              id="floatingInput"
+              placeholder="Project Name"
+            />
+            <label>Project Name</label>
+            { errors.name?.type === "required" && <small style={errorsStyles} >New Project must have a name...</small>}
+            { errors.name?.type === "minLength" && <small style={errorsStyles} >New Project needs at least five characters.</small>}
+            { errors.name?.type === "maxLength" && <small style={errorsStyles} >New Project name it's too long!.</small>}
           </div>
-        </div>
-      </div>
 
+          <div className="form-floating mb-4">
+            <input
+              {...register("description",{
+                  required: true,
+                  minLength: 10,
+                  maxLength: 150,
+                })
+              }
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              type="text"
+              className="form-control"
+              id="floatingDescription"
+              placeholder="Description"
+            />
+            <label>Description</label>
+            { errors.description?.type === "required" && <small style={errorsStyles} >The Project must have a description...</small>}
+            { errors.description?.type === "minLength" && <small style={errorsStyles} >Description needs to be longer.</small>}
+            { errors.description?.type === "maxLength" && <small style={errorsStyles} >Description it's too long!.</small>}
+          </div>
+
+          {/* DROPDOWNS PARA >> "Project Manager", "Assigned to", "Status"  */}
+          <div className="form-floating mb-4">
+            <input
+              {...register("projectManager")}
+              value={projectManager}
+              onChange={(e) => setProjectManager(e.target.value)}
+              type="text"
+              className="form-control"
+              id="floatingInput"
+              placeholder='Project Manager'
+            />
+            <label>Project Manager</label>
+          </div>
+
+          <div className="form-floating mb-4">
+            <input
+              {...register("assignedTo")}
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+              type="text"
+              className="form-control"
+              id="floatingInput"
+              placeholder='Assigned to'
+            />
+            <label>Assigned to</label>
+          </div>
+
+          <div className="form-floating mb-4">
+            <input
+              {...register("status")}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              type="text"
+              className="form-control"
+              id="floatingInput"
+              placeholder='Assigned to'
+            />
+            <label>Status</label>
+          </div>
+
+          {/* BTN SUBMIT */}
+          <div className="container text-start">
+            <div className="row align-items-start mb-4">
+              <div className="col-6">
+                <button type="submit" className="btn btn-lg btn-danger">Create project</button>
+              </div>
+          </div>
+
+        </div>
       </form>
     </>
   )

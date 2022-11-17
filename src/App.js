@@ -4,6 +4,8 @@ import FooterBrand from "./components/FooterBrand";
 import EstoEsLogo from "./EstoEsLogo.jsx";
 import { Routes, Route } from "react-router-dom";
 
+// USAR API SW PARA NOMBRES ??
+
 function App() {
   return (
     <>

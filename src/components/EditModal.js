@@ -43,14 +43,16 @@ const EditModal = ({ show, onClose, rowData }) => {
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="m-2">
+              <small>Project Name</small>
               <Form.Control
                 onChange={(e) => handleOnChange("name", e.target.value)}
                 defaultValue={name}
                 type="text"
-              />
+                />
             </Form.Group>
 
             <Form.Group className="m-2">
+              <small>Description</small>
               <Form.Control 
                 onChange={(e) => handleOnChange("description", e.target.value)}
                 defaultValue={description}
@@ -59,6 +61,7 @@ const EditModal = ({ show, onClose, rowData }) => {
             </Form.Group>
 
             <Form.Group className="m-2">
+              <small>Project Manager</small>
               <Form.Control 
                 onChange={(e) => handleOnChange("projectManager", e.target.value)}
                 defaultValue={projectManager}
@@ -67,6 +70,7 @@ const EditModal = ({ show, onClose, rowData }) => {
             </Form.Group>
 
             <Form.Group className="m-2">
+              <small>Assigned to</small>
               <Form.Control
                 onChange={(e) => handleOnChange("assignedTo", e.target.value)}
                 defaultValue={assignedTo}
@@ -75,6 +79,7 @@ const EditModal = ({ show, onClose, rowData }) => {
             </Form.Group>
 
             <Form.Group className="m-2">
+              <small>Status</small>
               <Form.Control
                 onChange={(e) => handleOnChange("status", e.target.value)}
                 defaultValue={status}
@@ -87,8 +92,8 @@ const EditModal = ({ show, onClose, rowData }) => {
             <Button variant="secondary" onClick={onClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-              Update
+            <Button variant="danger" onClick={handleSubmit}>
+              Save changes
             </Button>
           </Modal.Footer>
         </Modal>
