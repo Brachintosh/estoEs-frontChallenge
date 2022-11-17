@@ -3,6 +3,8 @@ import { AppContext, useAppContext } from '../context/appContext';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import  { useForm } from 'react-hook-form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
 
 const Add = () => {
   const { createProject } = useAppContext(AppContext);
@@ -153,7 +155,21 @@ const Add = () => {
           </div>
 
           {/* DROPDOWNS PARA >> "Project Manager", "Assigned to", "Status"  */}
-          <div className="form-floating mb-4">
+          <FloatingLabel controlId="selectProjectManager" label="Project Manager" className="mb-4">
+            <Form.Select
+              {...register("projectManager")}
+              value={projectManager}
+              onChange={(e) => setProjectManager(e.target.value)}
+            >
+              <option >Select a Project Manager...</option>
+              <option value="Juan Carlos">Juan</option>
+              <option value="Joaquin">Joaquin</option>
+              <option value="Raul">Raul</option>
+            </Form.Select>
+          </FloatingLabel>
+          {/* testing... */}
+
+          {/* <div className="form-floating mb-4">
             <input
               {...register("projectManager")}
               value={projectManager}
@@ -164,9 +180,22 @@ const Add = () => {
               placeholder='Project Manager'
             />
             <label>Project Manager</label>
-          </div>
+          </div> */}
 
-          <div className="form-floating mb-4">
+          <FloatingLabel controlId="selectProjectManager" label="Assigned To" className="mb-4">
+            <Form.Select
+              {...register("assignedTo")}
+              value={assignedTo}
+              onChange={(e) => setAssignedTo(e.target.value)}
+            >
+              <option>Select who to assign...</option>
+              <option value="Luka">Luka</option>
+              <option value="Tomas">Tomas</option>
+              <option value="Maria Juana">Juana</option>
+            </Form.Select>
+          </FloatingLabel>
+
+          {/* <div className="form-floating mb-4">
             <input
               {...register("assignedTo")}
               value={assignedTo}
@@ -177,9 +206,23 @@ const Add = () => {
               placeholder='Assigned to'
             />
             <label>Assigned to</label>
-          </div>
+          </div> */}
 
-          <div className="form-floating mb-4">
+          <FloatingLabel controlId="selectProjectManager" label="Status" className="mb-4">
+            <Form.Select
+              {...register("status")}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option>Select status...</option>
+              <option value="Enabled">Enabled</option>
+              <option value="Paused">Paused</option>
+              <option value="Finished">Finished</option>
+              <option value="Cancelled">Cancelled</option>
+            </Form.Select>
+          </FloatingLabel>
+
+          {/* <div className="form-floating mb-4">
             <input
               {...register("status")}
               value={status}
@@ -190,7 +233,7 @@ const Add = () => {
               placeholder='Assigned to'
             />
             <label>Status</label>
-          </div>
+          </div> */}
 
           {/* BTN SUBMIT */}
           <div className="container text-start">
