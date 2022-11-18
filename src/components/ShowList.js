@@ -10,6 +10,7 @@ const ShowList = () => {
 
   const [rowData, setRowData] = useState({});
   const [show, setShow] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleClose = () => setShow(false);
 
@@ -53,11 +54,23 @@ const ShowList = () => {
       }
     })
   };
-
+// eslint-disable-next-line
   return (
     <>
       <div style={{ border: "solid #f1f1f1 .1px", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5em", padding: ".5em 0"}}>
         <h4 style={{margin: "0 .5em"}}>My Projects</h4>
+        
+        <div className="form-floating m-1">
+          <input
+            onChange={(e) => setSearchTerm(e.target.value)}
+            type="text"
+            placeholder="Search project..."
+            className="form-control"
+            id="floatingInput"
+          />
+          <label>Search a Project</label>
+        </div>
+
         <Link to="/addProject" className="btn btn-danger" style={{margin: "0 .5em"}}>
           <i className="fa-solid fa-plus"></i>
           {" "}Add Project
@@ -66,7 +79,17 @@ const ShowList = () => {
       </div>
 
       <ul className="list-group list-group-horizontal-xxl text-start mb-4">
-      { projects && projects?.map((project) => (
+      { projects && projects?.filter((val) => {
+          if(searchTerm === "") {
+            return val
+          } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     val.projectManager.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     val.assignedTo.toLowerCase().includes(searchTerm.toLowerCase()) 
+                     ) {
+            return val
+          }
+        }
+      )?.map((project) => (
         <div key={project.id + Math.random()}>
       
         <li className="list-group-item">
